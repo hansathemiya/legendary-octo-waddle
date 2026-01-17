@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Marketing Deployment Plan | Accounting Tutor Authority</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap-grid.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --bg-dark: #0b0f19;
+            --bg-card: #151b2b;
+            --bg-card-hover: #1e2538;
+            --accent: #00f2ea; /* Cyan/Teal */
+            --accent-secondary: #7000ff; /* Purple */
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --line-color: #334155;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --danger: #ff4757;
+            --success: #2ed573;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* --- Sticky Nav & Progress --- */
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(11, 15, 25, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .status-badge {
+            background: rgba(255, 71, 87, 0.15);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 3px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(circle at top center, rgba(0, 242, 234, 0.05) 0%, transparent 60%);
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 600px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            animation: bounce 2s infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* --- Timeline Logic --- */
+        .timeline-section {
+            padding: 80px 0;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Vertical Line */
+        .timeline-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--bg-dark), var(--line-color) 10%, var(--line-color) 90%, var(--bg-dark));
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 60px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            z-index: 2;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px -10px rgba(0, 242, 234, 0.1);
+        }
+
+        /* Connecting Dots */
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            background: var(--bg-dark);
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            box-shadow: 0 0 0 5px rgba(11, 15, 25, 1);
+        }
+
+        /* Alternating Layout */
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse; /* Content on right */
+        }
+        
+        .timeline-item:nth-child(even) {
+            flex-direction: row; /* Content on left */
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: 50px; /* Space from center */
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-right: 50px; /* Space from center */
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) .tag-container {
+            justify-content: flex-end;
+        }
+
+        /* --- Content Styling --- */
+        .step-number {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card-title {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .expanded-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: left; /* Always left align details */
+            border-left: 3px solid var(--accent-secondary);
+        }
+
+        .expanded-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--accent-secondary);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .expanded-text {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+
+        .tag-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+
+        /* --- Special Sections --- */
+        .apocalypse-card {
+            border: 1px solid var(--danger) !important;
+            background: linear-gradient(145deg, rgba(255, 71, 87, 0.05), rgba(21, 27, 43, 1));
+        }
+        .apocalypse-card .step-number { color: var(--danger); }
+        .apocalypse-card .expanded-box { border-left-color: var(--danger); }
+
+        /* --- Mobile Responsiveness --- */
+        @media screen and (max-width: 768px) {
+            .timeline-section::before {
+                left: 30px; /* Move line to left */
+            }
+
+            .timeline-item {
+                flex-direction: column !important; /* Stack vertically */
+                align-items: flex-start;
+                padding-left: 60px;
+                padding-right: 20px;
+            }
+
+            .timeline-marker {
+                left: 30px; /* Align marker to line */
+            }
+
+            .timeline-content {
+                width: 100%;
+                margin: 0 !important; /* Reset margins */
+                text-align: left !important;
+            }
+
+            .tag-container {
+                justify-content: flex-start !important;
+            }
+
+            .hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky-nav">
+        <div class="nav-content font-mono">
+            <div>
+                <span style="color:var(--accent);">MARKETING_STRATEGY</span><span style="color:var(--text-muted);">.v1</span>
+            </div>
+            <div class="status-badge">Internal Use Only</div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="animate__animated animate__fadeInDown">
+            <span class="font-mono" style="color: var(--accent); font-size: 0.9rem; letter-spacing: 2px;">DEPLOYMENT PLAN</span>
+            <h1 class="mt-3">Marketing Workflow <br> <span class="font-mono" style="font-size: 0.6em; opacity: 0.7;">& Execution Roadmap</span></h1>
+        </div>
+        <p class="animate__animated animate__fadeInUp animate__delay-1s">
+            A strategic timeline for transforming one accounting tutor into the leading education authority in Sri Lanka.
+            <br><span style="font-size: 0.9rem; opacity: 0.7;">Optimization • Content • Funnels • Scaling</span>
+        </p>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down fa-2x" style="color: var(--text-muted);"></i>
+        </div>
+    </section>
+
+    <section class="timeline-section" id="timeline">
+
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+                <span class="step-number font-mono">PHASE 01 // FOUNDATION</span>
+                <h3 class="card-title">Account Optimization</h3>
+                <div class="tag-container">
+                    <span class="tag">Audit</span>
+                    <span class="tag">Branding</span>
+                    <span class="tag">Uniformity</span>
+                </div>
+                <p class="card-desc">Audit all existing social media accounts. Edit layouts, bios, and usernames to align with the new elite brand identity.</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-info-circle me-1"></i> Strategy Logic</div>
+                    <div class="expanded-text">This stage ensures the foundation is strong. Every account must reflect the same brand persona, tone, and authority before traffic is driven.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+                <span class="step-number font-mono">PHASE 02 // FOOTPRINT</span>
+                <h3 class="card-title">Account Expansion</h3>
+                <div class="tag-container">
+                    <span class="tag">Multi-Channel</span>
+                    <span class="tag">TikTok</span>
+                    <span class="tag">LinkedIn</span>
+                    <span class="tag">YouTube</span>
+                </div>
+                <p class="card-desc">Create new accounts on Instagram, TikTok, YouTube, LinkedIn, Facebook, and Twitter/X for aggressive marketing and funnel testing.</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-network-wired me-1"></i> Platform Roles</div>
+                    <div class="expanded-text">TikTok for reach, YouTube for authority, LinkedIn for credibility, Instagram for engagement, Facebook for parent decision-makers.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+                <span class="step-number font-mono">PHASE 03 // INTELLIGENCE</span>
+                <h3 class="card-title">Research & Content Mapping</h3>
+                <div class="tag-container">
+                    <span class="tag">Competitor Analysis</span>
+                    <span class="tag">Theme Mapping</span>
+                </div>
+                <p class="card-desc">Conduct full-scale research into audience behavior. Map content themes: “the whys, the whats, the hows” to build a continuous narrative.</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-map me-1"></i> Content Flow</div>
+                    <div class="expanded-text">Research ensures content is not random. Mapping themes creates a structured narrative that resonates with student pain points and exam cycles.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+                <span class="step-number font-mono">PHASE 04 // ENGAGEMENT</span>
+                <h3 class="card-title">Micro-Interaction Funnel</h3>
+                <div class="tag-container">
+                    <span class="tag">Polls</span>
+                    <span class="tag">Q&A</span>
+                    <span class="tag">DMs</span>
+                </div>
+                <p class="card-desc">Deploy polls, Q&A stickers, and DM automations. Capture early leads and test responsiveness to specific topics.</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-fingerprint me-1"></i> Lead Capture</div>
+                    <div class="expanded-text">Micro-interactions build trust. They act as the first low-friction touchpoints to convert passive viewers into active leads.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+                <span class="step-number font-mono">PHASE 05 // PRODUCTION</span>
+                <h3 class="card-title">Podcast & Clipping Engine</h3>
+                <div class="tag-container">
+                    <span class="tag">Long-Form</span>
+                    <span class="tag">Shorts</span>
+                    <span class="tag">Reels</span>
+                </div>
+                <p class="card-desc">Launch a podcast or lecture series. Clip episodes into short, engaging snippets optimized for retention across all platforms.</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-video me-1"></i> Dual Presence</div>
+                    <div class="expanded-text">Long-form builds deep authority and trust. Short-form clips maximize reach and virality. Together, they dominate the feed.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+                <span class="step-number font-mono">PHASE 06 // RELATABILITY</span>
+                <h3 class="card-title">Meme-Culture Edits</h3>
+                <div class="tag-container">
+                    <span class="tag">Viral</span>
+                    <span class="tag">Phonk Edits</span>
+                    <span class="tag">Gen-Z</span>
+                </div>
+                <p class="card-desc">Introduce relatable edits. Example: Ronaldo phonk edits with captions like “How I feel after writing 250 words for a 200-word essay.”</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-laugh-beam me-1"></i> Humanization</div>
+                    <div class="expanded-text">Meme culture humanizes the tutor, making them approachable. This drastically increases shareability among the student demographic.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+                <span class="step-number font-mono">PHASE 07 // R&D</span>
+                <h3 class="card-title">Trialing & Templates</h3>
+                <div class="tag-container">
+                    <span class="tag">A/B Testing</span>
+                    <span class="tag">Data Analysis</span>
+                    <span class="tag">Efficiency</span>
+                </div>
+                <p class="card-desc">Test different hooks and styles. Analyze performance data to identify winners, then build working templates for replication.</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-flask me-1"></i> Optimization</div>
+                    <div class="expanded-text">Templates reduce workload and ensure consistency. Trialing ensures only proven formats are scaled to the main account.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+                <span class="step-number font-mono">PHASE 08 // CONVERSION</span>
+                <h3 class="card-title">Structured Funnel Creation</h3>
+                <div class="tag-container">
+                    <span class="tag">Lead Magnet</span>
+                    <span class="tag">Nurture</span>
+                    <span class="tag">Close</span>
+                </div>
+                <p class="card-desc">Design the primary funnel path: Awareness (Social) → Engagement (Lead Magnet) → Conversion (Counseling) → Enrollment.</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-filter me-1"></i> Predictability</div>
+                    <div class="expanded-text">Funnels provide revenue predictability. This stage ensures every social media view has a clear path to becoming a paying student.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+                <span class="step-number font-mono">PHASE 09 // RHYTHM</span>
+                <h3 class="card-title">Stable Content System</h3>
+                <div class="tag-container">
+                    <span class="tag">Consistency</span>
+                    <span class="tag">Retention</span>
+                </div>
+                <p class="card-desc">Transition into a consistent posting rhythm on main accounts focusing on "How, What, Why, Who". Trial accounts continue testing in background.</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-sync-alt me-1"></i> Sustainability</div>
+                    <div class="expanded-text">Stability ensures long-term retention. Trial accounts act as innovation labs without disrupting the brand integrity of the main channel.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+                <span class="step-number font-mono">PHASE 10 // DOMINANCE</span>
+                <h3 class="card-title">SEO & Geo-Targeting</h3>
+                <div class="tag-container">
+                    <span class="tag">Local SEO</span>
+                    <span class="tag">Google Maps</span>
+                    <span class="tag">Heatmapping</span>
+                </div>
+                <p class="card-desc">Deploy geo-targeted SEO strategies to dominate "Accounting Class" searches in Sri Lanka. Build a parallel web funnel for lead listing.</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-globe-asia me-1"></i> Search Authority</div>
+                    <div class="expanded-text">SEO ensures discoverability outside of social algorithms. Geo-targeting locks down the specific Sri Lankan education niche.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+                <span class="step-number font-mono">PHASE 11 // AUTOMATION</span>
+                <h3 class="card-title">Setup Phase Completion</h3>
+                <div class="tag-container">
+                    <span class="tag">Self-Sustaining</span>
+                    <span class="tag">CRM Integration</span>
+                </div>
+                <p class="card-desc">The system is now self-sustaining. Leads flow in, content maintains visibility, and backend systems handle the pipeline.</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-check-circle me-1"></i> Operational Ready</div>
+                    <div class="expanded-text">Marketing is now a machine, not a manual task. The team shifts focus to management and optimization.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker" style="border-color: var(--danger); box-shadow: 0 0 10px var(--danger);"></div>
+            <div class="timeline-content apocalypse-card">
+                <span class="step-number font-mono"><i class="fas fa-radiation"></i> PHASE 12 // APOCALYPSE</span>
+                <h3 class="card-title">Aggressive Scaling</h3>
+                <div class="tag-container">
+                    <span class="tag" style="border-color: var(--danger); color: var(--danger);">Paid Ads</span>
+                    <span class="tag" style="border-color: var(--danger); color: var(--danger);">Max Volume</span>
+                </div>
+                <p class="card-desc">Shift into aggressive production. Leverage pre-built datasets. Introduce strategic paid ads to amplify proven organic hits.</p>
+                
+                <div class="expanded-box">
+                    <div class="expanded-title"><i class="fas fa-rocket me-1"></i> Exponential Growth</div>
+                    <div class="expanded-text">Scaling is the final stage. We use paid budgets only on content that has already proven itself organically to ensure maximum ROI.</div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer style="text-align: center; padding: 40px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.8rem;">
+        <p class="font-mono">INTERNAL DOCUMENT - DO NOT DISTRIBUTE</p>
+        <p class="mt-2">&copy; 2026 Akila Samaraweera Accounting.</p>
+    </footer>
+
+    <script>
+        // Scroll Progress Bar Logic
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+
+        // Intersection Observer for Timeline Animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Optional: Stop observing once revealed
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        timelineItems.forEach(item => {
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>
