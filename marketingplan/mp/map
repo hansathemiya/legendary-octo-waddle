@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounting Tutor Marketing Deployment Plan | Internal Team Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --primary-blue: #2563eb;
+            --accent-teal: #0d9488;
+            --accent-gold: #d97706;
+            --accent-purple: #7c3aed;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+            --card-light: #ffffff;
+            --card-dark: #1e293b;
+            --text-light: #64748b;
+            --text-dark: #334155;
+            --text-light-dark: #cbd5e1;
+            --text-dark-dark: #f1f5f9;
+            --border-light: #e2e8f0;
+            --border-dark: #334155;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            --shadow-dark: 0 15px 35px rgba(0, 0, 0, 0.12);
+            --shadow-dark-mode: 0 8px 20px rgba(0, 0, 0, 0.2);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --border-radius: 10px;
+            --gradient-primary: linear-gradient(135deg, #2563eb 0%, #0d9488 100%);
+            --gradient-dark: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+
+        [data-theme="dark"] {
+            --light-bg: #0f172a;
+            --card-light: #1e293b;
+            --text-dark: #f1f5f9;
+            --text-light: #cbd5e1;
+            --border-light: #334155;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--light-bg);
+            overflow-x: hidden;
+            font-size: 0.95rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.3;
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .container-narrow {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== THEME TOGGLE ===== */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--card-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--border-light);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-dark);
+        }
+
+        .theme-toggle i {
+            color: var(--accent-gold);
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--card-light);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            padding: 15px 0;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .navbar-brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brand i {
+            color: var(--accent-gold);
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0 8px;
+            position: relative;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-link.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(15, 23, 42, 0.05);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gradient-primary);
+            border-radius: 4px;
+            z-index: 1;
+        }
+
+        .timeline-milestone {
+            position: relative;
+            display: flex;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .timeline-milestone.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-milestone:nth-child(odd) {
+            justify-content: flex-start;
+            padding-right: calc(50% + 40px);
+        }
+
+        .timeline-milestone:nth-child(even) {
+            justify-content: flex-end;
+            padding-left: calc(50% + 40px);
+        }
+
+        .milestone-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--card-light);
+            border: 4px solid var(--primary-blue);
+            z-index: 2;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+            font-size: 0.8rem;
+        }
+
+        .milestone-content {
+            background: var(--card-light);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--accent-gold);
+            width: 100%;
+            max-width: 480px;
+            transition: var(--transition);
+            border: 1px solid var(--border-light);
+        }
+
+        .milestone-content:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-dark);
+        }
+
+        .milestone-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(13, 148, 136, 0.1);
+        }
+
+        .milestone-header i {
+            font-size: 1.6rem;
+            color: var(--accent-gold);
+            min-width: 40px;
+        }
+
+        .milestone-header h2 {
+            margin: 0;
+            font-size: 1.7rem;
+            flex-grow: 1;
+        }
+
+        .phase-tag {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* ===== STRATEGY DETAILS ===== */
+        .strategy-details {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(13, 148, 136, 0.05) 100%);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--accent-teal);
+        }
+
+        [data-theme="dark"] .strategy-details {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(13, 148, 136, 0.1) 100%);
+        }
+
+        .strategy-details h5 {
+            color: var(--accent-teal);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* ===== PLATFORM GRID ===== */
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .platform-card {
+            background: var(--card-light);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 3px solid;
+            border: 1px solid var(--border-light);
+        }
+
+        .platform-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .platform-card.instagram { border-color: #E4405F; }
+        .platform-card.tiktok { border-color: #000000; }
+        .platform-card.youtube { border-color: #FF0000; }
+        .platform-card.linkedin { border-color: #0A66C2; }
+        .platform-card.facebook { border-color: #1877F2; }
+        .platform-card.twitter { border-color: #1DA1F2; }
+
+        .platform-card i {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .platform-card.instagram i { color: #E4405F; }
+        .platform-card.tiktok i { color: #000000; }
+        .platform-card.youtube i { color: #FF0000; }
+        .platform-card.linkedin i { color: #0A66C2; }
+        .platform-card.facebook i { color: #1877F2; }
+        .platform-card.twitter i { color: #1DA1F2; }
+
+        /* ===== FUNNEL VISUAL ===== */
+        .funnel-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 700px;
+            margin: 30px auto;
+        }
+
+        .funnel-stage {
+            background: var(--card-light);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            margin-bottom: 15px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+            border-top: 4px solid;
+            border: 1px solid var(--border-light);
+        }
+
+        .funnel-stage.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .funnel-stage:nth-child(1) { width: 100%; border-color: #3b82f6; }
+        .funnel-stage:nth-child(2) { width: 85%; border-color: #8b5cf6; }
+        .funnel-stage:nth-child(3) { width: 70%; border-color: #10b981; }
+        .funnel-stage:nth-child(4) { width: 55%; border-color: #f59e0b; }
+
+        .stage-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+        }
+
+        /* ===== CONTENT FLOW ===== */
+        .content-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+            justify-content: center;
+        }
+
+        .content-pill {
+            background: var(--card-light);
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid var(--border-light);
+        }
+
+        .content-pill:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-dark);
+        }
+
+        .content-pill.how { border-left: 4px solid #3b82f6; }
+        .content-pill.what { border-left: 4px solid #10b981; }
+        .content-pill.why { border-left: 4px solid #f59e0b; }
+        .content-pill.who { border-left: 4px solid #8b5cf6; }
+
+        /* ===== SEO SECTION ===== */
+        .seo-visual {
+            background: var(--card-light);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 25px 0;
+            border-left: 5px solid var(--accent-teal);
+            border: 1px solid var(--border-light);
+        }
+
+        .geo-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--accent-teal);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin: 5px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(13, 148, 136, 0.2);
+        }
+
+        /* ===== SCALING PHASE ===== */
+        .scaling-phase {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 50px;
+            border-radius: var(--border-radius);
+            margin: 50px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scaling-phase h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding-top: 130px;
+            padding-bottom: 80px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.03) 0%, rgba(13, 148, 136, 0.03) 100%);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        [data-theme="dark"] .hero {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.2) 0%, rgba(13, 148, 136, 0.1) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: var(--primary-blue);
+            opacity: 0.03;
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-weight: 500;
+        }
+
+        .badge-team {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 50px 0 30px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .footer h3 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-size: 0.95rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 25px;
+            margin-top: 40px;
+            opacity: 0.7;
+            font-size: 0.85rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .timeline-line {
+                left: 40px;
+            }
+            
+            .timeline-milestone:nth-child(odd),
+            .timeline-milestone:nth-child(even) {
+                justify-content: flex-start;
+                padding: 0 0 0 80px;
+                margin-bottom: 60px;
+            }
+            
+            .milestone-marker {
+                left: 40px;
+            }
+            
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-padding {
+                padding: 60px 0;
+            }
+            
+            .hero {
+                padding-top: 110px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .timeline-milestone:nth-child(odd),
+            .timeline-milestone:nth-child(even) {
+                padding: 0 0 0 70px;
+                margin-bottom: 50px;
+            }
+            
+            .milestone-marker {
+                left: 35px;
+                width: 20px;
+                height: 20px;
+                font-size: 0.7rem;
+            }
+            
+            .milestone-content {
+                padding: 25px;
+            }
+            
+            .milestone-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .platform-grid {
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            }
+            
+            .scaling-phase {
+                padding: 35px;
+            }
+            
+            .theme-toggle {
+                bottom: 20px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .milestone-content {
+                padding: 20px;
+            }
+            
+            .milestone-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .milestone-header h2 {
+                font-size: 1.4rem;
+            }
+            
+            .phase-tag {
+                align-self: flex-start;
+            }
+            
+            .platform-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .funnel-stage {
+                padding: 20px;
+            }
+            
+            .timeline-milestone:nth-child(odd),
+            .timeline-milestone:nth-child(even) {
+                padding: 0 0 0 60px;
+            }
+            
+            .milestone-marker {
+                left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-narrow">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-project-diagram"></i>
+                <span>Marketing Deployment Plan</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#optimization">Account Setup</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#expansion">Expansion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#research">Research</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#funnel">Funnels</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#seo">SEO</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#scaling">Scaling</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container-narrow text-center">
+            <div class="badge-team">
+                <i class="fas fa-users"></i> INTERNAL TEAM DOCUMENT
+            </div>
+            <h1>Accounting Tutor Marketing Deployment Plan</h1>
+            <p class="hero-subtitle">Step-by-step strategic framework for establishing market dominance in Sri Lanka's accounting education space through systematic organic growth and multi-platform execution.</p>
+            <div class="mt-4">
+                <span class="geo-tag"><i class="fas fa-map-marker-alt"></i> Sri Lanka Focused</span>
+                <span class="geo-tag"><i class="fas fa-graduation-cap"></i> A/L & Professional Courses</span>
+                <span class="geo-tag"><i class="fas fa-chart-line"></i> Organic-First Strategy</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Deployment Plan -->
+    <div class="container-narrow">
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <!-- Account Optimization -->
+            <section id="optimization" class="timeline-milestone">
+                <div class="milestone-marker">1</div>
+                <div class="milestone-content">
+                    <div class="milestone-header">
+                        <i class="fas fa-user-check"></i>
+                        <h2>Account Optimization</h2>
+                        <span class="phase-tag">PHASE 1</span>
+                    </div>
+                    <p><strong>Deployment Task:</strong> Audit and optimize all existing social media accounts to establish strong brand foundation.</p>
+                    
+                    <div class="strategy-details">
+                        <h5><i class="fas fa-clipboard-check"></i> Execution Checklist</h5>
+                        <ul style="color: var(--text-light); margin-bottom: 0;">
+                            <li>Audit existing accounts for brand consistency</li>
+                            <li>Edit layouts, bios, and usernames to align with new brand identity</li>
+                            <li>Ensure visual consistency across all profile elements</li>
+                            <li>Standardize tone and messaging framework</li>
+                            <li>Verify contact information and call-to-action placement</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <small style="color: var(--text-light);"><i class="fas fa-info-circle"></i> This stage ensures every account reflects the same brand persona, tone, and authority before expansion begins.</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Account Expansion -->
+            <section id="expansion" class="timeline-milestone">
+                <div class="milestone-marker">2</div>
+                <div class="milestone-content">
+                    <div class="milestone-header">
+                        <i class="fas fa-layer-group"></i>
+                        <h2>Account Expansion</h2>
+                        <span class="phase-tag">PHASE 2</span>
+                    </div>
+                    <p><strong>Deployment Task:</strong> Create strategic accounts across all relevant platforms for multi-platform dominance and funnel testing.</p>
+                    
+                    <div class="platform-grid">
+                        <div class="platform-card instagram">
+                            <i class="fab fa-instagram"></i>
+                            <div><strong>Instagram</strong><br><small>Engagement & Visual Story</small></div>
+                        </div>
+                        <div class="platform-card tiktok">
+                            <i class="fab fa-tiktok"></i>
+                            <div><strong>TikTok</strong><br><small>Viral Reach & Trends</small></div>
+                        </div>
+                        <div class="platform-card youtube">
+                            <i class="fab fa-youtube"></i>
+                            <div><strong>YouTube</strong><br><small>Authority & Long-form</small></div>
+                        </div>
+                        <div class="platform-card linkedin">
+                            <i class="fab fa-linkedin"></i>
+                            <div><strong>LinkedIn</strong><br><small>Credibility & Professionals</small></div>
+                        </div>
+                        <div class="platform-card facebook">
+                            <i class="fab fa-facebook"></i>
+                            <div><strong>Facebook</strong><br><small>Parents & Communities</small></div>
+                        </div>
+                        <div class="platform-card twitter">
+                            <i class="fab fa-twitter"></i>
+                            <div><strong>Twitter/X</strong><br><small>Real-time Updates</small></div>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-details">
+                        <h5><i class="fas fa-bullseye"></i> Platform Roles Defined</h5>
+                        <p style="color: var(--text-light); margin-bottom: 0;">TikTok for maximum reach, YouTube for authority building, LinkedIn for professional credibility, Instagram for engagement, Facebook for parent decision-makers, Twitter for real-time updates and community building.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Field Research & Content Mapping -->
+            <section id="research" class="timeline-milestone">
+                <div class="milestone-marker">3</div>
+                <div class="milestone-content">
+                    <div class="milestone-header">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h2>Field Research & Content Mapping</h2>
+                        <span class="phase-tag">PHASE 3</span>
+                    </div>
+                    <p><strong>Deployment Task:</strong> Conduct comprehensive research to build data-driven content strategy and continuous flow plan.</p>
+                    
+                    <div class="strategy-details">
+                        <h5><i class="fas fa-database"></i> Research Components</h5>
+                        <ul style="color: var(--text-light); margin-bottom: 15px;">
+                            <li>Audience behavior analysis (students vs parents)</li>
+                            <li>Competitor strategy dissection</li>
+                            <li>Trending topic identification in Sri Lankan education</li>
+                            <li>Content gap analysis in accounting education space</li>
+                            <li>Platform-specific content preference mapping</li>
+                        </ul>
+                        
+                        <h5 class="mt-3"><i class="fas fa-project-diagram"></i> Content Theme Mapping</h5>
+                        <div class="content-flow">
+                            <div class="content-pill how">
+                                <i class="fas fa-cogs"></i>
+                                <span>The HOWs</span>
+                            </div>
+                            <div class="content-pill what">
+                                <i class="fas fa-question-circle"></i>
+                                <span>The WHATs</span>
+                            </div>
+                            <div class="content-pill why">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>The WHYs</span>
+                            </div>
+                            <div class="content-pill who">
+                                <i class="fas fa-user-tie"></i>
+                                <span>The WHOs</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <small style="color: var(--text-light);"><i class="fas fa-info-circle"></i> Research ensures content is strategic, not random. Theme mapping creates structured narrative that resonates with both students and parents.</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Micro-Interaction Funnel Launch -->
+            <section id="micro" class="timeline-milestone">
+                <div class="milestone-marker">4</div>
+                <div class="milestone-content">
+                    <div class="milestone-header">
+                        <i class="fas fa-microscope"></i>
+                        <h2>Micro-Interaction Funnel Launch</h2>
+                        <span class="phase-tag">PHASE 4</span>
+                    </div>
+                    <p><strong>Deployment Task:</strong> Deploy light-touch engagement systems to capture early leads and test audience responsiveness.</p>
+                    
+                    <div class="funnel-visual">
+                        <div class="funnel-stage">
+                            <div class="d-flex align-items-center">
+                                <div class="stage-icon">
+                                    <i class="fas fa-poll"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Polls & Questions</h5>
+                                    <p class="mb-0" style="color: var(--text-light);">Simple interactive content to gauge audience interests</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="funnel-stage">
+                            <div class="d-flex align-items-center">
+                                <div class="stage-icon">
+                                    <i class="fas fa-question-circle"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Q&A Sessions</h5>
+                                    <p class="mb-0" style="color: var(--text-light);">Live question answering to build trust and authority</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="funnel-stage">
+                            <div class="d-flex align-items-center">
+                                <div class="stage-icon">
+                                    <i class="fas fa-comment-dots"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Comment Engagement</h5>
+                                    <p class="mb-0" style="color: var(--text-light);">Strategic response system to build community</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="funnel-stage">
+                            <div class="d-flex align-items-center">
+                                <div class="stage-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Direct Message Flow</h5>
+                                    <p class="mb-0" style="color: var(--text-light);">Personalized outreach to warm leads</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-details">
+                        <h5><i class="fas fa-bullseye"></i> Deployment Objective</h5>
+                        <p style="color: var(--text-light); margin-bottom: 0;">Micro-interactions build initial trust and engagement. They act as first touchpoints to convert passive viewers into active leads while providing early data on audience preferences.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Podcast & Attention-Grabbing Content -->
+            <section class="timeline-milestone">
+                <div class="milestone-marker">5</div>
+                <div class="milestone-content">
+                    <div class="milestone-header">
+                        <i class="fas fa-broadcast-tower"></i>
+                        <h2>Podcast & Attention System</h2>
+                        <span class="phase-tag">PHASE 5</span>
+                    </div>
+                    <p><strong>Deployment Task:</strong> Launch long-form authority content with strategic repurposing for maximum reach.</p>
+                    
+                    <div class="strategy-details">
+                        <h5><i class="fas fa-sync-alt"></i> Content Repurposing Flow</h5>
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-4">
+                                <div class="p-3 rounded text-center" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <i class="fas fa-podcast text-primary mb-2"></i>
+                                    <h6 class="mb-1">Podcast Episode</h6>
+                                    <small style="color: var(--text-light);">30-45 min authority building</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 rounded text-center" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <i class="fas fa-scissors text-success mb-2"></i>
+                                    <h6 class="mb-1">Clip Editing</h6>
+                                    <small style="color: var(--text-light);">3-5 key moments extracted</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 rounded text-center" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <i class="fas fa-share-alt text-warning mb-2"></i>
+                                    <h6 class="mb-1">Multi-Platform Distribution</h6>
+                                    <small style="color: var(--text-light);">Optimized for each platform</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <small style="color: var(--text-light);"><i class="fas fa-info-circle"></i> Long-form builds authority, short-form builds reach. This dual approach creates maximum visibility while establishing subject matter expertise.</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Relatability Edits -->
+            <section class="timeline-milestone">
+                <div class="milestone-marker">6</div>
+                <div class="milestone-content">
+                    <div class="milestone-header">
+                        <i class="fas fa-virus"></i>
+                        <h2>Relatability & Meme Culture Integration</h2>
+                        <span class="phase-tag">PHASE 6</span>
+                    </div>
+                    <p><strong>Deployment Task:</strong> Create culturally relevant content that humanizes the tutor and increases shareability.</p>
+                    
+                    <div class="strategy-details">
+                        <h5><i class="fas fa-edit"></i> Content Format Examples</h5>
+                        <div class="p-3 rounded mt-2" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-quote-left" style="color: var(--text-light); margin-top: 3px; margin-right: 10px;"></i>
+                                <div>
+                                    <p class="mb-1"><em>"How I feel after writing 250 words for a 200-word essay"</em></p>
+                                    <p class="mb-0" style="color: var(--text-light);">— Ronaldo phonk edit with accounting student twist</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-3 rounded mt-2" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-quote-left" style="color: var(--text-light); margin-top: 3px; margin-right: 10px;"></i>
+                                <div>
+                                    <p class="mb-1"><em>"When you finally understand double-entry bookkeeping"</em></p>
+                                    <p class="mb-0" style="color: var(--text-light);">— Popular meme template adaptation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <small style="color: var(--text-light);"><i class="fas fa-info-circle"></i> Meme culture humanizes the tutor, making them approachable and relatable to younger audiences while increasing retention and shareability rates.</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trialing Formula -->
+            <section class="timeline-milestone">
+                <div class="milestone-marker">7</div>
+                <div class="milestone-content">
+                    <div class="milestone-header">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h2>Trialing Formula & Template Development</h2>
+                        <span class="phase-tag">PHASE 7</span>
+                    </div>
+                    <p><strong>Deployment Task:</strong> Systematically test content variations to identify winning formulas and create scalable templates.</p>
+                    
+                    <div class="strategy-details">
+                        <h5><i class="fas fa-vial"></i> Testing Matrix</h5>
+                        <div class="row g-2 mt-2">
+                            <div class="col-6">
+                                <div class="p-2 rounded" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <small><strong>Hook Types:</strong> Question, Story, Statistic, Problem</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <small><strong>Format Types:</strong> Tutorial, Story, Comparison, Case Study</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <small><strong>Length Variations:</strong> 15s, 30s, 60s, 90s</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <small><strong>Platform Variations:</strong> Native vs Cross-post</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5 class="mt-3"><i class="fas fa-copy"></i> Template Development</h5>
+                        <p style="color: var(--text-light); margin-bottom: 0;">Once winning formulas are identified, create reusable templates for: Opening hooks, content structure, call-to-action placement, visual layouts, and caption formulas.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Structured Funnel Creation -->
+            <section id="funnel" class="timeline-milestone">
+                <div class="milestone-marker">8</div>
+                <div class="milestone-content">
+                    <div class="milestone-header">
+                        <i class="fas fa-sitemap"></i>
+                        <h2>Structured Funnel Creation</h2>
+                        <span class="phase-tag">PHASE 8</span>
+                    </div>
+                    <p><strong>Deployment Task:</strong> Design and implement systematic conversion path from awareness to enrollment.</p>
+                    
+                    <div class="funnel-visual">
+                        <div class="funnel-stage">
+                            <div class="d-flex align-items-center">
+                                <div class="stage-icon">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Awareness</h5>
+                                    <p class="mb-0" style="color: var(--text-light);">Social content, SEO, collaborations</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="funnel-stage">
+                            <div class="d-flex align-items-center">
+                                <div class="stage-icon">
+                                    <i class="fas fa-hand-holding-heart"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Engagement</h5>
+                                    <p class="mb-0" style="color: var(--text-light);">Value-driven content, community building</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="funnel-stage">
+                            <div class="d-flex align-items-center">
+                                <div class="stage-icon">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Conversion</h5>
+                                    <p class="mb-0" style="color: var(--text-light);">Lead magnets, consultation booking</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="funnel-stage">
+                            <div class="d-flex align-items-center">
+                                <div class="stage-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Enrollment</h5>
+                                    <p class="mb-0" style="color: var(--text-light);">Program selection, payment, onboarding</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-details">
+                        <h5><i class="fas fa-cogs"></i> Funnel Mechanics</h5>
+                        <p style="color: var(--text-light); margin-bottom: 0;">Built only after proven templates are identified. Provides predictable conversion pathways. Each stage has specific content types, triggers, and handoff mechanisms to ensure leads are systematically nurtured toward enrollment.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stable Content System -->
+            <section class="timeline-milestone">
+                <div class="milestone-marker">9</div>
+                <div class="milestone-content">
+                    <div class="milestone-header">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <h2>Stable Content System</h2>
+                        <span class="phase-tag">PHASE 9</span>
+                    </div>
+                    <p><strong>Deployment Task:</strong> Establish consistent posting rhythm while maintaining innovation through testing accounts.</p>
+                    
+                    <div class="strategy-details">
+                        <h5><i class="fas fa-sync"></i> Dual-Track System</h5>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <div class="p-3 rounded h-100" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <h6 class="text-primary"><i class="fas fa-home"></i> Main Accounts</h6>
+                                    <ul class="mb-0" style="color: var(--text-light);">
+                                        <li>Consistent posting schedule</li>
+                                        <li>Focus on retention & authority</li>
+                                        <li>"How, What, Why, Who" content</li>
+                                        <li>Community management</li>
+                                        <li>Brand consistency maintenance</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 rounded h-100" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <h6 class="text-success"><i class="fas fa-flask"></i> Trial Accounts</h6>
+                                    <ul class="mb-0" style="color: var(--text-light);">
+                                        <li>Continuous format testing</li>
+                                        <li>New platform experimentation</li>
+                                        <li>Trend adaptation testing</li>
+                                        <li>Risk-taking & innovation</li>
+                                        <li>Data collection for optimization</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <small style="color: var(--text-light);"><i class="fas fa-info-circle"></i> Stability ensures long-term audience retention while trial accounts act as innovation labs, ensuring the system evolves without disrupting main account performance.</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEO & Geo-Targeting -->
+            <section id="seo" class="timeline-milestone">
+                <div class="milestone-marker">10</div>
+                <div class="milestone-content">
+                    <div class="milestone-header">
+                        <i class="fas fa-globe-asia"></i>
+                        <h2>SEO & Geo-Targeting Integration</h2>
+                        <span class="phase-tag">PHASE 10</span>
+                    </div>
+                    <p><strong>Deployment Task:</strong> Deploy local SEO strategy to dominate Sri Lankan search results and build parallel tracking system.</p>
+                    
+                    <div class="seo-visual">
+                        <h5 class="mb-3"><i class="fas fa-bullseye"></i> Geo-Targeted Keyword Strategy</h5>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <span class="geo-tag">accounting tutor colombo</span>
+                            <span class="geo-tag">A/L accounting classes sri lanka</span>
+                            <span class="geo-tag">best accounting tutor near me</span>
+                            <span class="geo-tag">CIMA classes sri lanka</span>
+                            <span class="geo-tag">accounting revision courses</span>
+                            <span class="geo-tag">CA Sri Lanka tuition</span>
+                        </div>
+                        
+                        <h5 class="mt-4 mb-3"><i class="fas fa-funnel-dollar"></i> Parallel Online Funnel</h5>
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <div class="p-2 rounded text-center" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <small><strong>Lead Listing</strong><br>Systematic capture & organization</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-2 rounded text-center" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <small><strong>Heatmap Analysis</strong><br>User behavior tracking</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-2 rounded text-center" style="background: var(--card-light); border: 1px solid var(--border-light);">
+                                    <small><strong>Conversion Pathing</strong><br>Optimization based on data</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-details mt-3">
+                        <h5><i class="fas fa-calendar-day"></i> Timing & Integration</h5>
+                        <p style="color: var(--text-light); margin-bottom: 0;">Begins 2-3 weeks after consistent posting establishes brand presence. Runs parallel to organic marketing, creating dual-channel lead capture system. SEO ensures discoverability while content ensures retention.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Setup Phase Completion -->
+            <section class="timeline-milestone">
+                <div class="milestone-marker">11</div>
+                <div class="milestone-content">
+                    <div class="milestone-header">
+                        <i class="fas fa-check-circle"></i>
+                        <h2>Setup Phase Completion</h2>
+                        <span class="phase-tag">PHASE 11</span>
+                    </div>
+                    <p><strong>Deployment Task:</strong> Transition to self-sustaining system with steady lead flow and backend management.</p>
+                    
+                    <div class="strategy-details">
+                        <h5><i class="fas fa-check-double"></i> System Status Check</h5>
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <div class="text-center p-3">
+                                    <div class="display-6 text-primary mb-2">✓</div>
+                                    <h6>Content Flow</h6>
+                                    <small style="color: var(--text-light);">Steady retention maintenance</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center p-3">
+                                    <div class="display-6 text-success mb-2">✓</div>
+                                    <h6>Lead Conversion</h6>
+                                    <small style="color: var(--text-light);">Consistent client acquisition</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center p-3">
+                                    <div class="display-6 text-teal mb-2">✓</div>
+                                    <h6>Backend Systems</h6>
+                                    <small style="color: var(--text-light);">Smooth lead management</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <small style="color: var(--text-light);"><i class="fas fa-info-circle"></i> By this stage, the marketing system operates autonomously. Leads flow consistently, content maintains visibility, and backend systems ensure efficient conversion and client management.</small>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Aggressive Scaling -->
+    <section id="scaling" class="scaling-phase">
+        <div class="container-narrow">
+            <h2>Aggressive Scaling Phase</h2>
+            <p class="text-center mb-4" style="opacity: 0.9; max-width: 800px; margin: 0 auto;">When demand spikes indicate market readiness, shift into exponential growth through strategic amplification of proven systems.</p>
+            
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="p-4 rounded border" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1) !important;">
+                        <div class="display-6 text-warning mb-3">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h5 class="text-white">Organic Content Surge</h5>
+                        <p class="text-light" style="opacity: 0.8; font-size: 0.9rem;">Leverage pre-built datasets and retention pools to dramatically increase content output frequency and reach.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 rounded border" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1) !important;">
+                        <div class="display-6 text-info mb-3">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="text-white">Data-Driven Amplification</h5>
+                        <p class="text-light" style="opacity: 0.8; font-size: 0.9rem;">Identify highest-performing content formats and double down with increased production and distribution resources.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 rounded border" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1) !important;">
+                        <div class="display-6 text-success mb-3">
+                            <i class="fas fa-ad"></i>
+                        </div>
+                        <h5 class="text-white">Strategic Paid Integration</h5>
+                        <p class="text-light" style="opacity: 0.8; font-size: 0.9rem;">Introduce paid advertising to amplify proven organic strategies, targeting warm audiences for maximum conversion efficiency.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-5 text-center">
+                <div class="d-inline-block p-3 rounded" style="background: rgba(255,255,255,0.1);">
+                    <h4 class="text-white mb-2"><i class="fas fa-exclamation-triangle"></i> Apocalypse Phase</h4>
+                    <p class="mb-0 text-light" style="opacity: 0.9;">Maximum market penetration through coordinated multi-channel dominance. Organic reach is systematically amplified with strategic paid support to achieve exponential growth.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container-narrow">
+            <h3>Marketing Deployment Plan</h3>
+            <p>Internal strategic document for team execution. This framework outlines the systematic approach to establishing market dominance in Sri Lanka's accounting education sector through phased organic growth and strategic scaling.</p>
+            
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <h6 class="text-light mb-3">STRATEGIC PILLARS</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-teal me-2"></i> Multi-Platform Presence</li>
+                        <li class="mb-2"><i class="fas fa-check text-teal me-2"></i> Data-Driven Content</li>
+                        <li class="mb-2"><i class="fas fa-check text-teal me-2"></i> Systematic Funnels</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-light mb-3">EXECUTION FOCUS</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-bullseye text-teal me-2"></i> Sri Lankan Context</li>
+                        <li class="mb-2"><i class="fas fa-bullseye text-teal me-2"></i> Organic-First Strategy</li>
+                        <li class="mb-2"><i class="fas fa-bullseye text-teal me-2"></i> Phased Deployment</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-light mb-3">TEAM OBJECTIVES</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-flag text-teal me-2"></i> Market Dominance</li>
+                        <li class="mb-2"><i class="fas fa-flag text-teal me-2"></i> Systematic Scaling</li>
+                        <li class="mb-2"><i class="fas fa-flag text-teal me-2"></i> Sustainable Growth</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Internal Marketing Deployment Document | Accounting Tutor Growth System | CONFIDENTIAL</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize GSAP animations
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            currentTheme = theme;
+            
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+        
+        // Initialize theme
+        if (currentTheme === 'dark' || (!localStorage.getItem('theme') && prefersDarkScheme.matches)) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            setTheme(currentTheme === 'light' ? 'dark' : 'light');
+        });
+        
+        // Progress bar
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+        
+        // Timeline milestone animations
+        gsap.utils.toArray('.timeline-milestone').forEach((milestone, index) => {
+            gsap.fromTo(milestone,
+                { opacity: 0, y: 40 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: milestone,
+                        start: "top 85%",
+                        end: "top 40%",
+                        scrub: false,
+                        markers: false,
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+        
+        // Funnel stage animations
+        gsap.utils.toArray('.funnel-stage').forEach((stage, index) => {
+            gsap.fromTo(stage,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    delay: index * 0.15,
+                    scrollTrigger: {
+                        trigger: stage.parentElement,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 80) {
+                navbar.style.padding = '10px 0';
+                navbar.style.boxShadow = 'var(--shadow)';
+            } else {
+                navbar.style.padding = '15px 0';
+                navbar.style.boxShadow = 'var(--shadow)';
+            }
+        });
+        
+        // Active nav link on scroll
+        const sections = document.querySelectorAll('section[id], .timeline-milestone');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        window.addEventListener('scroll', function() {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Bootstrap mobile menu close on click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                const navbarCollapse = document.getElementById('navbarNav');
+                if (navbarCollapse.classList.contains('show')) {
+                    const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                    bsCollapse.hide();
+                }
+            });
+        });
+        
+        // Initialize animations on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            // Hero animations
+            gsap.from('.hero h1', { duration: 1, y: 40, opacity: 0, ease: "power3.out" });
+            gsap.from('.hero-subtitle', { duration: 1, y: 30, opacity: 0, delay: 0.2, ease: "power3.out" });
+            gsap.from('.badge-team', { duration: 0.8, scale: 0.8, opacity: 0, delay: 0.4, ease: "back.out(1.7)" });
+            
+            // Animate geo tags
+            gsap.from('.geo-tag', {
+                duration: 0.6,
+                x: -20,
+                opacity: 0,
+                stagger: 0.1,
+                delay: 0.6,
+                ease: "power3.out"
+            });
+        });
+    </script>
+</body>
+</html>
