@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  <title>Tailors.lk · 100+ Lead Dashboard</title>
+  <!-- Tailwind CSS CDN with plugins -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <!-- Google Fonts: Inter for professional look -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(180deg, #f7f9fc 0%, #eef2f7 100%);
+      min-height: 100vh;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    }
+    .sticky-header {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(247, 249, 252, 0.8);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .action-btn {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s ease, opacity 0.2s ease;
+    }
+    .action-btn:active {
+      transform: scale(0.96);
+      opacity: 0.8;
+    }
+    /* Custom status button: vertical text wrap for narrow grid */
+    .status-btn {
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.2;
+      padding: 0.5rem 0.25rem;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body class="pb-10">
+
+<!-- Apple-style sticky header -->
+<header class="sticky top-0 z-50 sticky-header px-4 py-4 flex items-center justify-between">
+  <div class="flex flex-col">
+    <span class="text-[10px] font-bold tracking-widest text-blue-600 uppercase">Administrator</span>
+    <h1 class="text-xl font-bold text-slate-800">Lead Dashboard</h1>
+  </div>
+  <div class="text-right flex items-center gap-2">
+    <span class="text-sm font-medium text-slate-500 bg-white/40 px-3 py-1 rounded-full" id="lead-counter"></span>
+    <span class="text-lg font-black text-slate-900">Tailors<span class="text-blue-600">.lk</span></span>
+  </div>
+</header>
+
+<!-- Lead container (cards injected here) -->
+<main class="px-4 py-6 space-y-4" id="leads-container"></main>
+
+<!-- Status logic & lead data -->
+<script>
+  (function() {
+    // ---------- YOUR FULL TAILOR LEAD LIST (100+ exactly as provided) ----------
+    const RAW_LEADS = [
+      ["Handsome Boutique", "077 414 0929"],
+      ["Nugegoda ladies tailor shop", "071 391 3905"],
+      ["New Sarasi Tailors", "077 967 6895"],
+      ["Tailorzar", "076 630 4933"],
+      ["Sigaram Tailoring", "077 799 8477"],
+      ["Sampath Tailors", "077 654 8615"],
+      ["EM Tailors", "077 448 5373"],
+      ["Hudha Tailoring", "075 933 4193"],
+      ["Onkel Design", "071 622 1858"],
+      ["Thilak Design & Tailoring", "077 785 3522"],
+      ["Daisy Tailors & Fashion", "077 769 3198"],
+      ["FAIRY BOUTIQUE RAJAGIRIYA", "077 810 3366"],
+      ["Ramesha Tailors", "077 665 7555"],
+      ["Darshana Tailors", "071 637 2524"],
+      ["Richmo Tailors", "071 556 2996"],
+      ["Tailor Made Apparels", "076 394 8611"],
+      ["Anton Tailoring", "076 115 8283"],
+      ["New Lucky Tailors", "0112 763 278"],
+      ["Sangeetha Fashion Saree Jackets", "071 694 1010"],
+      ["Daisy Tailors & Fashion", "077 769 3198"],
+      ["Wasana Tailors", "0112 788 686"],
+      ["EM Tailors", "077 448 5373"],
+      ["Ranuga Tailors", "071 803 8042"],
+      ["Liyota Bridal dressmaking.", "071 852 8619"],
+      ["Anoja Tailors &Textiles", "0112 598 880"],
+      ["Smart Tailor", "077 904 4221"],
+      ["Ajee tailore", "071 225 5073"],
+      ["Deens Tailors", "077 543 6300"],
+      ["Tailoring Home", "076 550 2559"],
+      ["The Groom’s Collection and Tailors", "071 591 9851"],
+      ["Olympic Tailors", "077 909 9608"],
+      ["Gagana Fashion Tailors", "077 585 4343"],
+      ["Thilak Design & Tailoring", "077 785 3522"],
+      ["Sha Fashion Tailors", "077 605 6173"],
+      ["B.M.A tailors", "071 112 9956"],
+      ["BLOSSOM Design and Tailor", "071 832 2951"],
+      ["Siyanco Tailors", "0112 846 497"],
+      ["Ocean Tailors", "077 837 1181"],
+      ["Vision Tailors", "077 382 5028"],
+      ["Abtheens Tailor Colombo", "077 742 3444"],
+      ["SARITHA FASHION", "071 993 7963"],
+      ["Azraa Tailoring", "077 563 5701"],
+      ["Snob Tailors", "077 728 6561"],
+      ["Gowshi Tailors", "077 445 4568"],
+      ["FARZ Tailoring", "076 497 5999"],
+      ["NeedleiT", "075 650 6000"],
+      ["Chinthana Tailors", "0112 879 224"],
+      ["Devi Ladies Tailoring", "077 540 3727"],
+      ["FASHION WITH BRENI", "072 858 5857"],
+      ["Raheemas Custom Tailors", "0112 681 454"],
+      ["Nalin Tailor", "071 638 9885"],
+      ["Sandali Tailors", "077 195 0990"],
+      ["Rananjana Fashionable Tailors", "072 284 8451"],
+      ["Aplo Tailor", "0112 554 308"],
+      ["Tailors", "075 683 7454"],
+      ["Joe Tailors", "077 587 6150"],
+      ["Pradeep Tailors", "077 102 1422"],
+      ["New Kavindu Tailors", "077 935 7581"],
+      ["M.A Tailors", "072 657 5444"],
+      ["ABI Tailoring", "077 577 7011"],
+      ["Havelock Tailors", "071 186 3680"],
+      ["Srinath tailors", "077 275 1677"],
+      ["Palitha Tailor Shop", "077 842 3021"],
+      ["Wijaya Tailor Shop", "071 075 8861"],
+      ["New Ranjith Mod Tailors - Borella", "0112 688 076"],
+      ["Singha Tailors", "071 843 5161"],
+      ["STYLE STUDIO", "077 778 2520"],
+      ["Srinath tailors", "077 275 1677"],
+      ["Rohana Tailors", "072 570 7770"],
+      ["YOUR STYLE - Colombo 06", ""],
+      ["SHAZ TAILORS", "077 962 3243"],
+      ["Sarath Tailors", "077 723 4579"],
+      ["Jayani tailor shop", "075 293 2259"],
+      ["AR tailor shop", "077 009 8856"],
+      ["Sriyani Saree Jackets Specialists & Tailors", "070 237 3896"],
+      ["Tailors", "075 683 7454"],
+      ["Nudara Tailors", "077 626 2511"],
+      ["Aira Uniforms", "077 262 1664"],
+      ["Top Design Tailors", "077 161 9848"],
+      ["Nixon Tailors - IDH Junction", "077 762 8879"],
+      ["Bright Tailor Shop", "075 626 1960"],
+      ["Aj Tailors", "076 892 7014"],
+      ["Isuru Tailors", "071 279 1707"],
+      ["Wasana Tailors", "077 299 4185"],
+      ["Jerome Tailors", "077 836 8404"],
+      ["Sri Teena Tailors", "077 872 1601"],
+      ["Stitchhouselk", "077 388 3638"],
+      ["Jayani tailor shop", "075 293 2259"],
+      ["Shaaranya Tailors", "077 619 9386"],
+      ["Best Man Tailors", "071 585 3192"],
+      ["Tailor Shop", "077 811 3992"],
+      ["Sampath Tailors", "077 074 5781"],
+      ["Ranil Tailors", "077 294 5942"],
+      ["Venee Design", "077 485 5865"],
+      ["NI Tailors - Boralesgamuwa", "071 601 0113"],
+      ["New Brindhiya Tailors", "072 993 1413"],
+      ["Sadees Tailors", "077 125 7730"],
+      ["Samanali tailor shop", "075 036 3195"],
+      ["SuperTex Gents Tailors", "071 538 8685"],
+      ["Ranga tailor shop", "075 598 2408"],
+      ["Pathirage Tailor Shop", "076 180 1763"],
+      ["M Fashion", "075 592 9529"],
+      ["Ranga tailor shop", "075 598 2408"],
+      ["DRESS PLACE", "077 986 4708"],
+      ["Felicia Tailor Shop", "0315 681 499"],
+      ["prabasara Tailor shop - Meepe", "075 522 7000"],
+      ["Jude Tailor Shop", "072 278 9102"],
+      ["Dress well tailor shop", "076 117 1139"],
+      ["Lakmali tailor shop", "077 671 7954"],
+      ["Sunlook Tailor Shop", "075 239 9196"],
+      ["Dinushi Tailor Shop", "077 504 3200"],
+      ["Sukumar Tailor Shop", "076 816 9848"],
+      ["G K Tailor Shop", "077 100 2430"],
+      ["Thushari Tailor shop (තුෂාරි ටේලර්ස්)", "077 792 2937"]
+    ];
+
+    // clean phone digits (for tel & wa.me)
+    function cleanPhone(raw) {
+      if (!raw) return '';
+      return raw.replace(/\D/g, '');
+    }
+
+    // Build leads array with unique id (based on index, but we also keep original display)
+    const leads = RAW_LEADS.map(([name, phone], index) => ({
+      id: `lead_${index.toString().padStart(3,'0')}`,
+      name: name.trim(),
+      rawPhone: phone.trim(),           // keep original for display (spaces)
+      phone: cleanPhone(phone)          // digits only for tel & wa
+    }));
+
+    // update lead counter
+    document.getElementById('lead-counter').innerText = leads.length + ' shops';
+
+    // ----- STATUS CONFIG (same cycle as design) -----
+    const STATUS_FLOW = [
+      { key: 'NOT_CALLED', label: 'Not Called', color: 'bg-gray-400' },
+      { key: 'CALLED', label: 'Called', color: 'bg-green-500' },
+      { key: 'NO_ANSWER', label: 'No Answer', color: 'bg-orange-400' },
+      { key: 'NO_INTEREST', label: 'No Interest', color: 'bg-red-500' }
+    ];
+
+    // localStorage helpers
+    function loadStatus(leadId) {
+      return localStorage.getItem(leadId) || 'NOT_CALLED';
+    }
+
+    function saveStatus(leadId, statusKey) {
+      localStorage.setItem(leadId, statusKey);
+    }
+
+    // render all leads into container
+    function renderLeads() {
+      const container = document.getElementById('leads-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      leads.forEach(lead => {
+        const currentStatusKey = loadStatus(lead.id);
+        const statusObj = STATUS_FLOW.find(s => s.key === currentStatusKey) || STATUS_FLOW[0];
+
+        // create card
+        const card = document.createElement('div');
+        card.className = 'glass-card rounded-2xl p-5 flex flex-col space-y-4';
+        card.dataset.purpose = 'lead-card';
+
+        // WhatsApp link (wa.me/94702800659?text=name phone)
+        const waNumber = '94702800659';
+        const waMessage = `${lead.name} ${lead.phone}`;  // digits only for message, but fine
+        const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+
+        // tel: link (if phone exists)
+        const telLink = lead.phone ? `tel:${lead.phone}` : '#';
+        const callDisabled = !lead.phone ? ' opacity-40 pointer-events-none' : '';
+
+        // phone display format (show original with spaces, fallback)
+        const displayPhone = lead.rawPhone || lead.phone || 'no number';
+
+        card.innerHTML = `
+          <!-- Lead Info Section -->
+          <section>
+            <h2 class="text-xl font-bold text-slate-900">${lead.name.replace(/</g, '&lt;')}</h2>
+            <p class="text-slate-500 font-medium text-sm mt-0.5">${displayPhone}</p>
+          </section>
+
+          <!-- Actions Grid (3 columns) -->
+          <div class="grid grid-cols-3 gap-3">
+            <!-- Call Action -->
+            <a href="${telLink}" 
+               class="action-btn bg-blue-500 text-white rounded-xl text-sm font-semibold flex gap-2 ${callDisabled}">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+              <span>Call</span>
+            </a>
+
+            <!-- WhatsApp Update Action (exactly as design) -->
+            <a href="${waLink}" target="_blank"
+               class="action-btn bg-[#25D366] text-white rounded-xl text-sm font-semibold flex gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884 0 2.225.569 3.447 1.698 5.407l-.905 3.307 3.3-.866z"/>
+              </svg>
+              <span>Update</span>
+            </a>
+
+            <!-- Cycle Status button (status button with current color) -->
+            <button onclick="cycleStatus('${lead.id}')"
+                    class="action-btn ${statusObj.color} text-white rounded-xl text-xs font-bold px-1 text-center status-btn">
+              ${statusObj.label}
+            </button>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // cycleStatus function (must be global because onclick attribute)
+    window.cycleStatus = function(leadId) {
+      const currentStatus = loadStatus(leadId);
+      const currentIndex = STATUS_FLOW.findIndex(s => s.key === currentStatus);
+      const nextIndex = (currentIndex + 1) % STATUS_FLOW.length;
+      const nextStatus = STATUS_FLOW[nextIndex].key;
+      saveStatus(leadId, nextStatus);
+      renderLeads();  // re-render to reflect updated colors and labels
+    };
+
+    // initial render after DOM ready
+    window.addEventListener('DOMContentLoaded', renderLeads);
+  })();
+</script>
+
+<!-- optional tiny reset button (you can add if you like) -->
+<div class="px-4 mt-8 flex justify-center">
+  <button onclick="if(confirm('Reset ALL statuses to NOT CALLED?')){ localStorage.clear(); window.location.reload(); }" 
+          class="text-xs text-slate-400 underline decoration-dotted hover:text-slate-700 transition">
+    ↻ reset all statuses
+  </button>
+</div>
+</body>
+</html>
